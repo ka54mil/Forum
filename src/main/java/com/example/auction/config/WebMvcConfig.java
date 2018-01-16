@@ -1,4 +1,4 @@
-package com.example.dentist;
+package com.example.auction.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

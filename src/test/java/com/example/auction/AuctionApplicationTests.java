@@ -1,4 +1,4 @@
-package com.example.dentist;
+package com.example.auction;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DentistApplicationTests {
+public class AuctionApplicationTests {
 
 	@Test
 	public void contextLoads() {

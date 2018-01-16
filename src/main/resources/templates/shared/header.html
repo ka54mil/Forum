@@ -21,16 +21,16 @@
             <div id="navbar" class="collapse navbar-collapse ">
                 <!--przyklad linku do listy i dodawania-->
                 <!--<ul class="nav navbar-nav navbar-left">-->
-                    <!--<li th:class="${pageName eq 'vehicleList'}? 'active'">-->
-                        <!--<a th:href="@{/vehicleList.html(all)}">Lista pojazdów</a>-->
-                    <!--</li>-->
-                    <!--<li sec:authorize="hasRole('ROLE_ADMIN')" th:class="${pageName eq 'custom'}? 'active'">-->
-                        <!--<a th:href="@{/vehicleForm.html}">Dodaj pojazd</a>-->
-                    <!--</li>-->
+                <!--<li th:class="${pageName eq 'vehicleList'}? 'active'">-->
+                <!--<a th:href="@{/vehicleList.html(all)}">Lista pojazdów</a>-->
+                <!--</li>-->
+                <!--<li sec:authorize="hasRole('ROLE_ADMIN')" th:class="${pageName eq 'custom'}? 'active'">-->
+                <!--<a th:href="@{/vehicleForm.html}">Dodaj pojazd</a>-->
+                <!--</li>-->
                 <!--</ul>-->
                 <ul class="nav navbar-nav navbar-right">
                     <li sec:authorize="isAnonymous()">
-                        <a th:href="@{/registrationForm.html}">Zarejestruj</a>
+                        <a th:href="@{/register}">Zarejestruj</a>
                     </li>
                     <li sec:authorize="isAnonymous()"
                         th:class="${pageName eq 'logonForm'}? 'active'">
