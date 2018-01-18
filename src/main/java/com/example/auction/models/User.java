@@ -3,6 +3,7 @@ package com.example.auction.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
@@ -18,6 +19,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Size(min = 4, max = 36)
     @Column(name = "username")
     private String username;
@@ -26,6 +28,11 @@ public class User {
     private String password;
     @Transient
     private String passwordConfirm;
+
+    @Size(min = 4, max = 36)
+    @Column(name = "email")
+    @Email
+    private String email;
 
     @Column(name = "enabled")
     private boolean enabled = false;

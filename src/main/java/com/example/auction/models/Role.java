@@ -27,8 +27,8 @@ public class Role {
     }
 
     public enum Types{
-        ROLE_ADMIN,
-        ROLE_USER
+        ADMIN,
+        USER
     }
 
 }

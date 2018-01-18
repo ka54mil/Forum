@@ -45,6 +45,11 @@ public class Item {
     @JoinColumn(name="payer_id", nullable = false)
     private User winner;
 
+    @Valid
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="category_id", nullable = false)
+    private Category category;
+
     @Size(min = 1, max = 20)
     private String status;
 

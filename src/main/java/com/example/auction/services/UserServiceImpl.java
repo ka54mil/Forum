@@ -32,8 +32,6 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    //bez adnotacji @Transactional sesja jest zamykana po wywołaniu findByUsername, co uniemożliwia dociągnięcie ról, gdyż fetch=EAGER.
-    //ponadto, musi być włączone zarządzanie transakcjami @EnableTransactionManagement
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         com.example.auction.models.User user = userRepository.findByUsername(username);
@@ -45,11 +43,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDetails createUserDetails(com.example.auction.models.User user) {
-//        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-//        for (Role role : user.getRoles()){
-//            grantedAuthorities.add(new SimpleGrantedAuthority(role.getType().toString()));
-//        }
-
         Set<GrantedAuthority> grantedAuthorities =
                 user.getRoles().stream().map(//mapowanie Role na GrantedAuthority
                         r -> new SimpleGrantedAuthority(r.getType().toString())
@@ -61,11 +54,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(com.example.auction.models.User user) {
 
-        Role userRole = roleRepository.findRoleByType(Role.Types.ROLE_USER);
+        Role userRole = roleRepository.findRoleByType(Role.Types.USER);
         List roles = Arrays.asList(userRole);
         user.setRoles(new HashSet<>(roles));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setPasswordConfirm(null);//wyzerowanie jest potrzebne ze względu na walidację
+        user.setPasswordConfirm(null);
         userRepository.saveAndFlush(user);
     }
 
