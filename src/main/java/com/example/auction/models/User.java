@@ -1,5 +1,6 @@
 package com.example.auction.models;
 
+import com.example.auction.validators.annotations.UniqueUsername;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,8 +21,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 4, max = 36)
+    @Size(min = 3, max = 36)
     @Column(name = "username")
+    @UniqueUsername
     private String username;
 
     @Column(name = "password")
@@ -35,7 +37,7 @@ public class User {
     private String email;
 
     @Column(name = "enabled")
-    private boolean enabled = false;
+    private boolean enabled = true;
 
     @AssertTrue
     private boolean isPasswordsEquals(){
@@ -49,7 +51,7 @@ public class User {
     private Set<Role> roles;
 
     public User(String username){
-        this(username, false);
+        this(username, true);
     }
 
     public User(String username, boolean enabled){

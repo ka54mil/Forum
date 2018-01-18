@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     private UserDetails createUserDetails(com.example.auction.models.User user) {
         Set<GrantedAuthority> grantedAuthorities =
-                user.getRoles().stream().map(//mapowanie Role na GrantedAuthority
+                user.getRoles().stream().map(
                         r -> new SimpleGrantedAuthority(r.getType().toString())
                 ).collect(Collectors.toSet());
 

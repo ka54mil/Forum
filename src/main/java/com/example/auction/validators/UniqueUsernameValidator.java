@@ -16,7 +16,7 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
     }
 
     public boolean isValid(String login, ConstraintValidatorContext context) {
-        return login != null && userService.isUniqueLogin(login);
+        return userService == null || (login != null && userService.isUniqueLogin(login));
     }
 
 }

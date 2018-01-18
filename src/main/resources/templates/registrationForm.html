@@ -32,7 +32,12 @@
 
                     <div class="form-group">
                         <input type="password" th:field="*{passwordConfirm}"
-                               class="form-control" placeholder="hasło" required="true" autofocus="true"/>
+                               class="form-control" placeholder="potwierdź hasło" required="true" autofocus="true"/>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" th:field="*{email}"
+                               class="form-control" placeholder="email" required="true" autofocus="true"/>
                     </div>
 
                     <div class="row">
