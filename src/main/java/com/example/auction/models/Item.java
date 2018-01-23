@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "items")
@@ -45,10 +46,11 @@ public class Item {
     @JoinColumn(name="payer_id", nullable = false)
     private User winner;
 
-    @Valid
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id", nullable = false)
-    private Category category;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "items_categories",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
 
     @Size(min = 1, max = 20)
     private String status;

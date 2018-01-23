@@ -4,6 +4,8 @@ import com.example.auction.models.Role;
 import com.example.auction.repositories.RoleRepository;
 import com.example.auction.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -54,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(com.example.auction.models.User user) {
 
-        Role userRole = roleRepository.findRoleByType(Role.Types.USER);
+        Role userRole = roleRepository.findRoleByType(Role.Types.ROLE_USER);
         List roles = Arrays.asList(userRole);
         user.setRoles(new HashSet<>(roles));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -65,5 +67,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isUniqueLogin(String username) {
         return userRepository.findByUsername(username) == null;
+    }
+
+    @Override
+    public Page<com.example.auction.models.User> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }

@@ -16,7 +16,7 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Enumerated(EnumType.STRING)//przechowywane w postaci string
     private Types type;
     @ManyToMany(mappedBy = "roles")
@@ -27,8 +27,8 @@ public class Role {
     }
 
     public enum Types{
-        ADMIN,
-        USER
+        ROLE_ADMIN,
+        ROLE_USER
     }
 
 }
