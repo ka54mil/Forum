@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -31,12 +32,15 @@ public class Item {
     private BigDecimal price;
 
     @Temporal(TemporalType.DATE)
+    @CreationTimestamp
     private Date created;
 
-    @Future
     @Temporal(TemporalType.DATE)
     @Column(name="end_date")
     private Date endDate;
+
+    @Size(min = 1, max = 20)
+    private String status;
 
     @Valid
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,19 +53,24 @@ public class Item {
     private User winner;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @Size(max=10)
     @JoinTable(name = "items_categories",
             joinColumns = @JoinColumn(name = "item_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories;
 
-    @Size(min = 1, max = 20)
-    private String status;
 
-    public Item(String name, BigDecimal price, Date endDate, User owner, String status) {
+    public Item(String name, BigDecimal price, Date endDate, String status, User owner) {
         this.name = name;
         this.price = price;
         this.endDate = endDate;
         this.owner = owner;
         this.status = status;
+    }
+
+    public enum Statuses{
+        Zakonczona,
+        Aktywna,
+        Wstrzymana
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -21,6 +23,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<Category> getAll(Pageable pageable) {
         return categoryRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Category> getAll() {
+        return categoryRepository.findAll();
     }
 
     @Override

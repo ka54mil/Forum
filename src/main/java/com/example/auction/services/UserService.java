@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 
-public interface UserService extends UserDetailsService {
+public interface UserService extends UserDetailsService, Service<User> {
 
-    void save(User user);
+    User save(User user);
     boolean isUniqueLogin(String login);
 
     Page<User> getAll(Pageable pageable);

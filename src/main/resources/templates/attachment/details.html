@@ -13,9 +13,12 @@
     Nazwa: <a th:href="@{/attachment/download(id=${attachment.id})}">
         <b th:text="${attachment.name}"></b><br/>
     </a>
-    Ścieżka: <b th:text="${attachment.path}"></b><br/>
-    Przedmiot: <a th:href="@{/attachment/edit(id=${attachment.id})}">
+    Typ: <b th:text="${attachment.type}"></b><br/>
+    Przedmiot: <a th:href="|/item/details/${attachment.item.id}|">
         <b th:text="${attachment.item.name}"></b>
+    </a><br/>
+    Dodany przez: <a th:href="|/user/details/${attachment.item.owner.id}|" sec:authorize="hasRole('ROLE_ADMIN')">
+    <b th:text="${attachment.item.owner.name}"></b>
     </a><br/>
     <br/>
         <a class="btn btn-success" href="/attachment/">Wstecz</a>

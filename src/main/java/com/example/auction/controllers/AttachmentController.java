@@ -2,6 +2,7 @@ package com.example.auction.controllers;
 
 import com.example.auction.models.Attachment;
 import com.example.auction.services.AttachmentService;
+import com.example.auction.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -21,9 +22,12 @@ public class AttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
+    @Autowired
+    private ItemService itemService;
+
     @RequestMapping(path = "/attachment")
     public String list(Model model, Pageable pageable) {
-        model.addAttribute("categoriesPage", attachmentService.getAll(pageable));
+        model.addAttribute("attachmentsPage", attachmentService.getAll(pageable));
         return "attachment/list";
     }
 
@@ -37,6 +41,7 @@ public class AttachmentController {
             attachment = new Attachment();
             model.addAttribute("action", "add");
         }
+        model.addAttribute("items", itemService.getAll());
         model.addAttribute("attachment", attachment);
         return "attachment/form";
     }

@@ -1,7 +1,9 @@
 package com.example.auction.controllers;
 
 import com.example.auction.models.Item;
+import com.example.auction.services.CategoryService;
 import com.example.auction.services.ItemService;
+import com.example.auction.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -21,13 +23,19 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @RequestMapping(path = "/admin/item")
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @RequestMapping(path = "/item")
     public String list(Model model, Pageable pageable) {
-        model.addAttribute("categoriesPage", itemService.getAll(pageable));
+        model.addAttribute("itemsPage", itemService.getAll(pageable));
         return "item/list";
     }
 
-    @RequestMapping(path = {"/admin/item/add", "/admin/item/edit", "/item/add"}, method= RequestMethod.GET)
+    @RequestMapping(path = {"/item/add", "/item/edit"}, method= RequestMethod.GET)
     public String form(Model model, Optional<Long> id) {
         Item item;
         if(id.isPresent()){
@@ -38,28 +46,36 @@ public class ItemController {
             model.addAttribute("action", "add");
         }
         model.addAttribute("item", item);
+        model.addAttribute("statuses", Item.Statuses.values());
+        model.addAttribute("users", userService.getAll());
+        model.addAttribute("categories", categoryService.getAll());
+
         return "item/form";
     }
 
-    @RequestMapping(path = {"/admin/item/add", "/admin/item/edit", "/item/add"}, method = RequestMethod.POST)
-    public String processForm(@ModelAttribute("action") String action, @Valid @ModelAttribute("item") Item item, BindingResult errors) {
+    @RequestMapping(path = {"/item/add", "/item/edit", "/item/add"}, method = RequestMethod.POST)
+    public String processForm(Model model, @ModelAttribute("action") String action, @Valid @ModelAttribute("item") Item item, BindingResult errors) {
 
         if(errors.hasErrors()){
+            model.addAttribute("statuses", Item.Statuses.values());
+            model.addAttribute("users", userService.getAll());
+            model.addAttribute("categories", categoryService.getAll());
+
             return "item/form";
         }
         itemService.save(item);
         return "redirect:/item";
     }
 
-    @RequestMapping(path = {"/admin/item/details/{id}"})
+    @RequestMapping(path = {"/item/details/{id}"})
     public String details(Model model, @PathVariable Long id) {
         model.addAttribute("item", itemService.getById(id));
         return "item/details";
     }
 
-    @RequestMapping(path = {"/admin/item/delete/{id}"})
+    @RequestMapping(path = {"/item/delete/{id}"})
     public String delete(Model model, @PathVariable Long id) {
         model.addAttribute("item", itemService.getById(id));
-        return "redirect:/admin/item";
+        return "redirect:/item";
     }
 }

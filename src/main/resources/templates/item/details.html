@@ -8,12 +8,26 @@
 <div th:replace="shared/header :: header('home')"/>
 
 <div id="main" class="container">
-    <H1>Kategoria</H1>
-    Id: <b th:text="${category.id}"></b><br/>
-    Nazwa: <b th:text="${category.name}"></b><br/>
-    Aktywna: <b th:text="#{${category.active}}"></b><br/>
+    <H1>Przedmiot</H1>
+    Id: <b th:text="${item.id}"></b><br/>
+    Nazwa: <b th:text="${item.name}"></b><br/>
+    Cena: <b th:text="#{${item.active}}"></b><br/>
+    Dodano: <b th:text="#{${item.active}}"></b><br/>
+    Status: <b th:text="#{${item.active}}"></b><br/>
+    Wystawiony do: <b th:text="#{${item.active}}"></b><br/>
+    Wystawiony przez: <b th:text="#{${item.active}}"></b><br/>
+    Zapłacił najwięcej: <b th:text="#{${item.active}}"></b><br/>
+    Kategorie:
+    <th:block th:each="category : ${item.categories}">
+        <div class="span3">
+            <a th:href="|/category/details/${category.id}|" sec:authorize="hasRole('ROLE_ADMIN')">
+                <b th:text="${category.name}"></b>
+            </a>
+            <b th:text="${category.name}" sec:authorize="!hasRole('ROLE_ADMIN')"></b>
+        </div>
+    </th:block>
 <br/>
-    <a class="btn btn-success" href="/admin/category">Wstecz</a>
+    <a class="btn btn-success" href="/item">Wstecz</a>
 </div>
 </body>
 </html>

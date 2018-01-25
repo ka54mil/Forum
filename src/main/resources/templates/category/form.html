@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <input type="text" th:field="*{name}"
                                class="form-control" th:classappend="${#fields.hasErrors('name')}?'is-invalid'"
-                               placeholder="nazwa kategorii"/>
+                               placeholder="nazwa"/>
                         <th-block data-th-if="${#fields.hasErrors('name')}"
                             data-th-each="err : ${#fields.errors('name')}" data-th-text="${err}" class="help-block">
                         </th-block>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Aukcja</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main" class="container">
+
+    <H2>Użytkownicy</H2>
+
+    <div th:if="${usersPage.hasContent() eq false}">
+        <span>Brak użytkowników w bazie</span>
+    </div>
+    <div th:if="${usersPage.hasContent() eq true}">
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Nazwa</th>
+                <th>Email</th>
+                <th>Aktywny</th>
+                <th>Role</th>
+                <th>Akcje</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${usersPage.content}">
+
+                <td>
+                    <a th:href="'/user/details/'+${user.id}" th:inline="text">[[${user.username}]]</a>
+                </td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.enabled}"></td>
+                <td>
+                    <select disabled="disabled" multiple="multiple" >
+                        <option th:each="role : ${user.roles}" th:value="${role.id}" th:text="${role.type}"/>
+                    </select>
+                </td>
+                <td>
+                    <a class="btn btn-danger" th:href="'/user/delete/'+${user.id}">Usuń</a>
+                    <a class="btn btn-success" th:href="|/user/edit/${user.id}|">Edytuj</a>
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div th:replace="shared/pagination :: pager('/', ${usersPage})"></div>
+
+    </div>
+
+    <a class="btn btn-success" href="/user/add" >Dodaj użytkownika</a>
+
+
+</div>
+</body>
+</html>

@@ -12,25 +12,67 @@
 
     <div class="row" style="margin-top:20px">
         <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-            <form th:method="POST" th:object="${category}">
+            <form th:method="POST" th:object="${item}">
                 <fieldset>
                     <h1 th:text="#{${action}}"></h1>
 
                     <div class="form-group">
                         <input type="text" th:field="*{name}"
                                class="form-control" th:classappend="${#fields.hasErrors('name')}?'is-invalid'"
-                               placeholder="nazwa kategorii"/>
+                               placeholder="nazwa"/>
                         <th-block data-th-if="${#fields.hasErrors('name')}"
                             data-th-each="err : ${#fields.errors('name')}" data-th-text="${err}" class="help-block">
                         </th-block>
                     </div>
 
+                    <div class="form-group">
+                        <input type="text" th:field="*{price}"
+                               class="form-control" th:classappend="${#fields.hasErrors('price')}?'is-invalid'"
+                               placeholder="cena"/>
+                        <th-block data-th-if="${#fields.hasErrors('price')}"
+                                  data-th-each="err : ${#fields.errors('price')}" data-th-text="${err}" class="help-block">
+                        </th-block>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" th:field="*{endDate}"
+                               class="form-control datepicker" th:classappend="${#fields.hasErrors('endDate')}?'is-invalid'"
+                               placeholder="koniec aukcji"/>
+                        <th-block data-th-if="${#fields.hasErrors('endDate')}"
+                                  data-th-each="err : ${#fields.errors('endDate')}" data-th-text="${err}" class="help-block">
+                        </th-block>
+                    </div>
+
                     <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <select th:field="*{active}" class="form-control"
-                                th:classappend="${#fields.hasErrors('active')}?'is-invalid'">
-                            <option value="false" disabled="true">Aktywny</option>
-                            <option th:value="true" th:text="Tak"/>
-                            <option th:value="false" th:text="Nie"/>
+                        <select th:field="*{status}" class="form-control"
+                                th:classappend="${#fields.hasErrors('status')}?'is-invalid'">
+                            <option value="false" disabled="true">Status</option>
+                            <option th:each="status : ${statuses}" th:value="${status}" th:text="${status}"/>
+                        </select>
+                    </div>
+
+                    <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <select th:field="*{owner}" class="form-control"
+                                th:classappend="${#fields.hasErrors('owner')}?'is-invalid'">
+                            <option value="false" disabled="true">Wystawiono przez</option>
+                            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"/>
+                        </select>
+                    </div>
+
+                    <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <select th:field="*{winner}" class="form-control"
+                                th:classappend="${#fields.hasErrors('winner')}?'is-invalid'">
+                            <option value="false" disabled="true">Zapłacił najwięcej</option>
+                            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"/>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select th:field="*{categories}" class="form-control"
+                                th:classappend="${#fields.hasErrors('categories')}?'is-invalid'"
+                                multiple="multiple" size="10">
+                            <option value="false" disabled="true">Kategorie</option>
+                            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"/>
                         </select>
                     </div>
 
@@ -53,5 +95,11 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('.datepicker').datepicker();
+    });
+</script>
 </body>
 </html>

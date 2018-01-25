@@ -35,7 +35,7 @@
                 <td th:text="${category.name}"></td>
                 <td>
                     <a class="btn btn-danger" th:href="'/category/delete/'+${category.id}">Usuń</a>
-                    <a class="btn btn-success" th:href="@{/category/edit(id=${category.id})}">Edytuj</a>
+                    <a class="btn btn-success" th:href="|/category/edit/${category.id}|">Edytuj</a>
                 </td>
 
             </tr>

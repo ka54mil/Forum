@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
 
@@ -21,6 +23,11 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     public Page<Attachment> getAll(Pageable pageable) {
         return attachmentRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Attachment> getAll() {
+        return attachmentRepository.findAll();
     }
 
     @Override

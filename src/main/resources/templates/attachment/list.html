@@ -10,32 +10,34 @@
 
 <div id="main" class="container">
 
-    <H2>Kategorie</H2>
+    <H2>Załączniki</H2>
 
-    <div th:if="${categoriesPage.hasContent() eq false}">
-        <span>Brak kategorii w bazie</span>
+    <div th:if="${attachmentsPage.hasContent() eq false}">
+        <span>Brak załączników w bazie</span>
     </div>
-    <div th:if="${categoriesPage.hasContent() eq true}">
+    <div th:if="${attachmentsPage.hasContent() eq true}">
 
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
                 <th>Nazwa</th>
-                <th>Aktywna</th>
+                <th>Typ</th>
+                <th>Przedmiot</th>
+                <th>Dodany przez</th>
                 <th>Akcje</th>
 
             </tr>
             </thead>
             <tbody>
-            <tr th:each="category : ${categoriesPage.content}">
+            <tr th:each="attachment : ${attachmentsPage.content}">
 
                 <td>
-                    <a th:href="'/admin/category/details/'+${category.id}" th:inline="text">[[${category.name}]]</a>
+                    <a th:href="'/attachment/details/'+${attachment.id}" th:inline="text">[[${attachment.name}]]</a>
                 </td>
-                <td th:text="${category.name}"></td>
+                <td th:text="${attachment.name}"></td>
                 <td>
-                    <a class="btn btn-danger" th:href="'/admin/category/delete/'+${category.id}">Usuń</a>
-                    <a class="btn btn-success" th:href="@{/admin/category/edit(id=${category.id})}">Edytuj</a>
+                    <a class="btn btn-danger" th:href="'/attachment/delete/'+${attachment.id}">Usuń</a>
+                    <a class="btn btn-success" th:href="|/attachment/edit/${attachment.id}|">Edytuj</a>
                 </td>
 
             </tr>
@@ -43,11 +45,11 @@
             </tbody>
         </table>
 
-        <div th:replace="shared/pagination :: pager('/', ${categoriesPage})"></div>
+        <div th:replace="shared/pagination :: pager('/', ${attachmentsPage})"></div>
 
     </div>
 
-    <a class="btn btn-success" href="/admin/category/add" >Dodaj własną kategorie</a>
+    <a class="btn btn-success" href="/attachment/add" >Dodaj załącznik</a>
 
 
 </div>

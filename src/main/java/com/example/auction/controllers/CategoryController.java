@@ -36,8 +36,8 @@ public class CategoryController {
         return "category/list";
     }
 
-    @RequestMapping(path = {"/category/add", "/category/edit", "/category/suggest"}, method= RequestMethod.GET)
-    public String form(Model model, Optional<Long> id) {
+    @RequestMapping(path = {"/category/add", "/category/edit/{id}", "/category/suggest"}, method= RequestMethod.GET)
+    public String form(Model model, @PathVariable Optional<Long> id) {
         Category category;
         if(id.isPresent()){
             category = categoryService.getById(id.get());
@@ -50,8 +50,8 @@ public class CategoryController {
         return "category/form";
     }
 
-    @RequestMapping(path = {"/category/add", "/category/edit", "/category/suggest"}, method = RequestMethod.POST)
-    public String processForm(@ModelAttribute("action") String action, @Valid @ModelAttribute("category") Category category, BindingResult errors, Principal principal) {
+    @RequestMapping(path = {"/category/add", "/category/edit/{id}", "/category/suggest"}, method = RequestMethod.POST)
+    public String processForm(@ModelAttribute("action") String action, @Valid @ModelAttribute("category") Category category, BindingResult errors, Principal principal, @PathVariable("id") Optional<Long> id) {
 
         if(errors.hasErrors()){
             return "category/form";
