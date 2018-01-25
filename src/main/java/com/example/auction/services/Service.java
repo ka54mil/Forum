@@ -8,5 +8,6 @@ public interface Service<T> {
     T getById(Long id);
     Page<T> getAll(Pageable pageable);
     T save(T t);
-    
+    void delete(Long id);
+
 }

@@ -4,6 +4,8 @@ import com.example.auction.models.Category;
 import com.example.auction.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -27,13 +30,13 @@ public class CategoryController {
         return "home";
     }
 
-    @RequestMapping(path = "/admin/category")
+    @RequestMapping(path = "/category")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("categoriesPage", categoryService.getAll(pageable));
         return "category/list";
     }
 
-    @RequestMapping(path = {"/admin/category/add", "/admin/category/edit", "/category/suggest"}, method= RequestMethod.GET)
+    @RequestMapping(path = {"/category/add", "/category/edit", "/category/suggest"}, method= RequestMethod.GET)
     public String form(Model model, Optional<Long> id) {
         Category category;
         if(id.isPresent()){
@@ -47,25 +50,32 @@ public class CategoryController {
         return "category/form";
     }
 
-    @RequestMapping(path = {"/admin/category/add", "/admin/category/edit", "/category/suggest"}, method = RequestMethod.POST)
-    public String processForm(@ModelAttribute("action") String action, @Valid @ModelAttribute("category") Category category, BindingResult errors) {
+    @RequestMapping(path = {"/category/add", "/category/edit", "/category/suggest"}, method = RequestMethod.POST)
+    public String processForm(@ModelAttribute("action") String action, @Valid @ModelAttribute("category") Category category, BindingResult errors, Principal principal) {
 
         if(errors.hasErrors()){
             return "category/form";
         }
         categoryService.save(category);
-        return "redirect:/category";
+        if(principal instanceof UserDetails){
+            for (Object role:((UserDetails) principal).getAuthorities().toArray()) {
+                if(role.equals("ROLE_ADMIN")){
+                    return "redirect:/category";
+                }
+            }
+        }
+        return "redirect:/";
     }
 
-    @RequestMapping(path = {"/admin/category/details/{id}"})
+    @RequestMapping(path = {"/category/details/{id}"})
     public String details(Model model, @PathVariable Long id) {
         model.addAttribute("category", categoryService.getById(id));
         return "category/details";
     }
 
-    @RequestMapping(path = {"/admin/category/delete/{id}"})
+    @RequestMapping(path = {"/category/delete/{id}"})
     public String delete(Model model, @PathVariable Long id) {
         model.addAttribute("category", categoryService.getById(id));
-        return "redirect:/admin/category";
+        return "redirect:/category";
     }
 }

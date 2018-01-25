@@ -15,16 +15,21 @@ public class ItemServiceImpl implements ItemService
 
     @Override
     public Item getById(Long id) {
-        return null;
+        return itemRepository.findOne(id);
     }
 
     @Override
     public Page<Item> getAll(Pageable pageable) {
-        return null;
+        return itemRepository.findAll(pageable);
     }
 
     @Override
     public Item save(Item item) {
-        return null;
+        return itemRepository.save(item);
+    }
+
+    @Override
+    public void delete(Long id) {
+        itemRepository.delete(id);
     }
 }

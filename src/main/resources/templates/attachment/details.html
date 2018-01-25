@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Strona domowa</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main" class="container">
+    <H1>Kategoria</H1>
+    Id: <b th:text="${attachment.id}"></b><br/>
+    Nazwa: <a th:href="@{/attachment/download(id=${attachment.id})}">
+        <b th:text="${attachment.name}"></b><br/>
+    </a>
+    Ścieżka: <b th:text="${attachment.path}"></b><br/>
+    Przedmiot: <a th:href="@{/attachment/edit(id=${attachment.id})}">
+        <b th:text="${attachment.item.name}"></b>
+    </a><br/>
+    <br/>
+        <a class="btn btn-success" href="/attachment/">Wstecz</a>
+</div>
+</body>
+</html>

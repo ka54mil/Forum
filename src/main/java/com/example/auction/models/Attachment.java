@@ -20,14 +20,18 @@ public class Attachment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 1, max = 100)
-    private String path;
+    @Size(min = 1, max = 20)
+    private String name;
 
     @Size(min = 1, max = 20)
     private String type;
 
+    @Lob @Basic(fetch = FetchType.LAZY)
+    @Column(name="content", nullable=false)
+    private byte[] content;
+
     @Valid
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id", nullable = false)
-    private Category category;
+    @JoinColumn(name="item_id", nullable = false)
+    private Item item;
 }

@@ -29,18 +29,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    public AccessDeniedHandler createAccessDeniedHandler(){
-        AccessDeniedHandlerImpl impl = new AccessDeniedHandlerImpl();
-        impl.setErrorPage("/error403");//url
-        return impl;
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/error", "/*", "/register", "/webjars/**", "/category/*","/statics/**","/item/*").permitAll()
+                .antMatchers("/category/**","/attachment/**","/item/**").hasRole("ADMIN")
+                .antMatchers("/error", "/*", "/register", "/webjars/**", "/category/suggest","/statics/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login").permitAll()
