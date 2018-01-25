@@ -31,8 +31,8 @@ public class AttachmentController {
         return "attachment/list";
     }
 
-    @RequestMapping(path = {"/attachment/add", "/attachment/edit"}, method= RequestMethod.GET)
-    public String form(Model model, Optional<Long> id) {
+    @RequestMapping(path = {"/attachment/add", "/attachment/edit/{id}"}, method= RequestMethod.GET)
+    public String form(Model model, @PathVariable Optional<Long> id) {
         Attachment attachment;
         if(id.isPresent()){
             attachment = attachmentService.getById(id.get());
@@ -46,8 +46,8 @@ public class AttachmentController {
         return "attachment/form";
     }
 
-    @RequestMapping(path = {"/attachment/add", "/attachment/edit"}, method = RequestMethod.POST)
-    public String processForm(@ModelAttribute("action") String action, @Valid @ModelAttribute("attachment") Attachment attachment, BindingResult errors) {
+    @RequestMapping(path = {"/attachment/add", "/attachment/edit/{id}"}, method = RequestMethod.POST)
+    public String processForm(@ModelAttribute("action") String action, @Valid @ModelAttribute("attachment") Attachment attachment, BindingResult errors, @PathVariable("id") Optional<Long> id) {
 
         if(errors.hasErrors()){
             return "attachment/form";

@@ -9,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -35,8 +32,8 @@ public class ItemController {
         return "item/list";
     }
 
-    @RequestMapping(path = {"/item/add", "/item/edit"}, method= RequestMethod.GET)
-    public String form(Model model, Optional<Long> id) {
+    @GetMapping({"/item/add", "/item/edit/{id}"})
+    public String form(Model model, @PathVariable("id") Optional<Long> id) {
         Item item;
         if(id.isPresent()){
             item = itemService.getById(id.get());
@@ -53,8 +50,8 @@ public class ItemController {
         return "item/form";
     }
 
-    @RequestMapping(path = {"/item/add", "/item/edit", "/item/add"}, method = RequestMethod.POST)
-    public String processForm(Model model, @ModelAttribute("action") String action, @Valid @ModelAttribute("item") Item item, BindingResult errors) {
+    @PostMapping({"/item/add", "/item/edit/{id}"})
+    public String processForm(Model model, @ModelAttribute("action") String action, @Valid @ModelAttribute("item") Item item, BindingResult errors, @PathVariable("id") Optional<Long> id) {
 
         if(errors.hasErrors()){
             model.addAttribute("statuses", Item.Statuses.values());

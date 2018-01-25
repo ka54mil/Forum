@@ -9,10 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -36,7 +33,7 @@ public class CategoryController {
         return "category/list";
     }
 
-    @RequestMapping(path = {"/category/add", "/category/edit/{id}", "/category/suggest"}, method= RequestMethod.GET)
+    @GetMapping({"/category/add", "/category/edit/{id}", "/category/suggest"})
     public String form(Model model, @PathVariable Optional<Long> id) {
         Category category;
         if(id.isPresent()){
