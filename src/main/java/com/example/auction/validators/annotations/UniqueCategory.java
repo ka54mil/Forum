@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueCategoryValidator.class)
 public @interface UniqueCategory {
-    String message() default "field is not unique";
+    String message() default "Kategoria już istnieje lub została zasugerowana";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

@@ -24,6 +24,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category save(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    @Override
     public Page<Category> getAllActive(Pageable pageable) {
         return categoryRepository.findAllByActive(true, pageable);
     }

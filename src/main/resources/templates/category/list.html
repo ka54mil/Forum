@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Aukcja</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main" class="container">
+
+    <H2>Kategorie</H2>
+
+    <div th:if="${categoriesPage.hasContent() eq false}">
+        <span>Brak kategorii w bazie</span>
+    </div>
+    <div th:if="${categoriesPage.hasContent() eq true}">
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Nazwa</th>
+                <th>Aktywna</th>
+                <th>Akcje</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="category : ${categoriesPage.content}">
+
+                <td>
+                    <a th:href="'/admin/category/details/'+${category.id}" th:inline="text">[[${category.name}]]</a>
+                </td>
+                <td th:text="${category.name}"></td>
+                <td>
+                    <a class="btn btn-danger" th:href="'/admin/category/delete/'+${category.id}">Usuń</a>
+                    <a class="btn btn-success" th:href="@{/admin/category/edit(id=${category.id})}">Edytuj</a>
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+
+        <div th:replace="shared/pagination :: pager('/', ${categoriesPage})"></div>
+
+    </div>
+
+    <a class="btn btn-success" href="/admin/category/add" >Dodaj własną kategorie</a>
+
+
+</div>
+</body>
+</html>

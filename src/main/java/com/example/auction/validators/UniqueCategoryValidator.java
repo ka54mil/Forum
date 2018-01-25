@@ -19,6 +19,6 @@ public class UniqueCategoryValidator implements ConstraintValidator<UniqueCatego
 
     @Override
     public boolean isValid(String category, ConstraintValidatorContext constraintValidatorContext) {
-        return category != null && categoryService.isUniqueCategory(category);
+        return categoryService == null || (category != null && categoryService.isUniqueCategory(category));
     }
 }

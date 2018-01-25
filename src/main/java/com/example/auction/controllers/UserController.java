@@ -22,23 +22,23 @@ public class UserController {
     @GetMapping("/register")
     public String registration(Model model) {
         model.addAttribute("userCommand", new User());
-        return "registrationForm";
+        return "user/registrationForm";
     }
 
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("userCommand", new User());
-        return "loginForm";
+        return "user/loginForm";
     }
 
     @PostMapping("/register")
     public String registration(@Valid @ModelAttribute("userCommand") User userForm, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "registrationForm";
+            return "user/registrationForm";
         }
         userService.save(userForm);
-        return "registrationSuccess";
+        return "user/registrationSuccess";
     }
 
     @InitBinder

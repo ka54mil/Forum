@@ -1,5 +1,6 @@
 package com.example.auction.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "attachments")
 @Getter @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Attachment {
 

@@ -13,4 +13,18 @@ public class ItemServiceImpl implements ItemService
     @Autowired
     private ItemRepository itemRepository;
 
+    @Override
+    public Item getById(Long id) {
+        return null;
+    }
+
+    @Override
+    public Page<Item> getAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Item save(Item item) {
+        return null;
+    }
 }

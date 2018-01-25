@@ -27,6 +27,9 @@
                             Kategorie<span class="caret"></span>
                         </a>
                         <ul class="list-group dropdown-menu">
+                            <li sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a th:href="@{/admin/category}">Lista kategorii</a>
+                            </li>
                             <li>
                                 <a th:href="@{/category}">Szukaj po kategoriach</a>
                             </li>

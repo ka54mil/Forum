@@ -39,19 +39,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                    .antMatchers("/*", "/home", "/register", "/webjars/**", "/category/*").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/error", "/*", "/register", "/webjars/**", "/category/*","/statics/**","/item/*").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
+                    .formLogin().loginPage("/login").permitAll()
                 .and()
-                    .logout()
-                    .permitAll()
-                .and()
-                    .exceptionHandling()
-                    .accessDeniedHandler(createAccessDeniedHandler());
+                    .logout().permitAll();
 
+        http.headers().frameOptions().disable();
     }
 
 }

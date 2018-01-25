@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <div th:replace="shared/header :: header-css"/>
+    <title>Strona domowa</title>
+</head>
+<body>
+<div th:replace="shared/header :: header('home')"/>
+
+<div id="main" class="container">
+    <H1>Kategoria</H1>
+    Id: <b th:text="${category.id}"></b><br/>
+    Nazwa: <b th:text="${category.name}"></b><br/>
+    Aktywna: <b th:text="#{${category.active}}"></b><br/>
+<br/>
+    <a class="btn btn-success" href="/admin/category">Wstecz</a>
+</div>
+</body>
+</html>
