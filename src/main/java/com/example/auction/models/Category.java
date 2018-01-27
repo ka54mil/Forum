@@ -12,9 +12,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "categories")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
+@UniqueCategory
 @AllArgsConstructor
 public class Category {
 
@@ -22,12 +22,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @UniqueCategory
     @Size(min = 2, max = 50)
     private String name;
 
     private boolean active;
-
 
     @ManyToMany(mappedBy = "categories")
     private Set<Item> items;

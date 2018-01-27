@@ -7,7 +7,7 @@
 <body>
 <div th:replace="shared/header :: header('home')"/>
 
-<div id="main" class="container">
+<div id="main" class="container" th:if="${user} ne null">
     <H1>Kategoria</H1>
     Id: <b th:text="${user.id}"></b><br/>
     Nazwa użytkownika: <b th:text="${user.username}"></b><br/>
@@ -16,14 +16,13 @@
     Role:
     <th:block th:each="role : ${user.roles}">
         <div class="span3">
-            <a th:href="|/category/details/${role.id}|" sec:authorize="hasRole('ROLE_ADMIN')">
-                <b th:text="${role.type}"></b>
-            </a>
-            <b th:text="${role.type}" sec:authorize="!hasRole('ROLE_ADMIN')"></b>
+            <b th:text="${role.type}"></b>
         </div>
     </th:block>
     <br/>
-        <a class="btn btn-success" href="/attachment/">Wstecz</a>
+        <a class="btn btn-success" href="/user">Wstecz</a>
 </div>
+<div id="main" class="container" th:if="${user} eq null" th:text="#{record.not.found}"/>
+
 </body>
 </html>

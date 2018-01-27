@@ -1,8 +1,8 @@
 package com.example.auction.controllers;
 
-import com.example.auction.models.Attachment;
 import com.example.auction.models.Role;
 import com.example.auction.models.User;
+import com.example.auction.repositories.RoleRepository;
 import com.example.auction.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,16 +20,20 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping({"/user/add", "/user/edit", "/register"})
-    public String registration(Model model, Optional<Long> id) {
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @GetMapping(value = {"/user/add", "/user/edit/{id}", "/register"})
+    public String registration(Model model, @PathVariable("id") Optional<Long> id) {
         User user;
         if(id.isPresent()){
             user = userService.getById(id.get());
             model.addAttribute("action", "edit");
         } else {
             user = new User();
-            model.addAttribute("action", "add");
+            model.addAttribute("action", "Register");
         }
+        model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("userCommand", user);
         return "user/registrationForm";
     }
@@ -40,19 +44,23 @@ public class UserController {
         return "user/loginForm";
     }
 
-    @PostMapping("/register")
-    public String registration(@ModelAttribute("action") String action, @Valid @ModelAttribute("userCommand") User userForm, BindingResult bindingResult) {
+    @PostMapping({"/user/add", "/user/edit/{id}", "/register"})
+    public String registration(Model model, @ModelAttribute("action") String action, @Valid @ModelAttribute("userCommand") User userForm, BindingResult bindingResult, @PathVariable("id") Optional<Long> id) {
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("roles", roleRepository.findAll());
             return "user/registrationForm";
         }
         userService.save(userForm);
+        if(id.isPresent()){
+            return "redirect:/user";
+        }
         return "user/registrationSuccess";
     }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.setDisallowedFields("enabled", "roles");
+        binder.setDisallowedFields("enabled");
     }
 
 
@@ -71,7 +79,7 @@ public class UserController {
 
     @RequestMapping(path = {"/user/delete/{id}"})
     public String delete(Model model, @PathVariable Long id) {
-        model.addAttribute("user", userService.getById(id));
+        userService.delete(id);
         return "redirect:/user";
     }
 }

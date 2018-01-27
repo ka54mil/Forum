@@ -7,7 +7,7 @@
 <body>
 <div th:replace="shared/header :: header('home')"/>
 
-<div id="main" class="container">
+<div id="main" class="container" th:if="${category} ne null">
     <H1>Kategoria</H1>
     Id: <b th:text="${category.id}"></b><br/>
     Nazwa: <b th:text="${category.name}"></b><br/>
@@ -15,5 +15,7 @@
 <br/>
     <a class="btn btn-success" href="/category">Wstecz</a>
 </div>
+<div id="main" class="container" th:if="${category} eq null"/>
+
 </body>
 </html>

@@ -7,8 +7,9 @@
 <body>
 <div th:replace="shared/header :: header('home')"/>
 
-<div id="main" class="container">
+<div id="main" class="container" th:if="${attachment} ne null">
     <H1>Kategoria</H1>
+    <img th:src="|data:image/png;base64,${attachment.content}|" alt="IMG DESC">
     Id: <b th:text="${attachment.id}"></b><br/>
     Nazwa: <a th:href="@{/attachment/download(id=${attachment.id})}">
         <b th:text="${attachment.name}"></b><br/>
@@ -23,5 +24,6 @@
     <br/>
         <a class="btn btn-success" href="/attachment/">Wstecz</a>
 </div>
+<div id="main" class="container" th:if="${attachment} eq null" th:text="#{record.not.found}"/>
 </body>
 </html>

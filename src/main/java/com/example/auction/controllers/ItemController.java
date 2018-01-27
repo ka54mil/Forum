@@ -1,5 +1,6 @@
 package com.example.auction.controllers;
 
+import com.example.auction.models.Category;
 import com.example.auction.models.Item;
 import com.example.auction.services.CategoryService;
 import com.example.auction.services.ItemService;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -25,6 +27,13 @@ public class ItemController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @RequestMapping(path = "/*")
+    public String index(Model model, Pageable pageable, Optional<List<Category>> categories) {
+        model.addAttribute("categories", categoryService.getAllActive());
+        model.addAttribute("itemsPage", itemService.getAllOnSale(pageable));
+        return "home";
+    }
 
     @RequestMapping(path = "/item")
     public String list(Model model, Pageable pageable) {

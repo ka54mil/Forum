@@ -69,8 +69,8 @@ public class Item {
     }
 
     public enum Statuses{
-        Zakonczona,
+        Wstrzymana,
         Aktywna,
-        Wstrzymana
+        Zakonczona
     }
 }

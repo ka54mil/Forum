@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,12 +21,6 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
-
-    @RequestMapping(path = "/*")
-    public String index(Model model, Pageable pageable) {
-        model.addAttribute("categoriesPage", categoryService.getAllActive(pageable));
-        return "home";
-    }
 
     @RequestMapping(path = "/category")
     public String list(Model model, Pageable pageable) {
@@ -53,14 +48,11 @@ public class CategoryController {
         if(errors.hasErrors()){
             return "category/form";
         }
+        String name = category.getName().trim();
+        name = name.substring(0,1).toUpperCase()+name.toLowerCase().substring(1,name.length());
+        category.setName(name);
         categoryService.save(category);
-        if(principal instanceof UserDetails){
-            for (Object role:((UserDetails) principal).getAuthorities().toArray()) {
-                if(role.equals("ROLE_ADMIN")){
-                    return "redirect:/category";
-                }
-            }
-        }
+
         return "redirect:/";
     }
 
@@ -72,7 +64,7 @@ public class CategoryController {
 
     @RequestMapping(path = {"/category/delete/{id}"})
     public String delete(Model model, @PathVariable Long id) {
-        model.addAttribute("category", categoryService.getById(id));
+        categoryService.delete(id);
         return "redirect:/category";
     }
 }

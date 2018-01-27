@@ -7,7 +7,19 @@
         <!-- this is header-css -->
         <link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
         <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+        <script src="/webjars/bootstrap-datepicker/1.0.1/js/bootstrap-datepicker.js"></script>
         <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.datepicker').datepicker({
+                    autoclose: true,
+                    format: "yyyy-mm-dd",
+                    immediateUpdates: true,
+                    todayBtn: true,
+                    todayHighlight: true
+                });
+            });
+        </script>
     </div>
 </head>
 <body>
@@ -28,18 +40,24 @@
                         </a>
                         <ul class="list-group dropdown-menu">
                             <li sec:authorize="hasRole('ROLE_ADMIN')">
-                                <a th:href="@{/admin/category}">Lista kategorii</a>
+                                <a th:href="@{/category}">Lista kategorii</a>
                             </li>
                             <li>
-                                <a th:href="@{/category}">Szukaj po kategoriach</a>
+                                <a th:href="@{/}">Szukaj po kategoriach</a>
                             </li>
                             <li>
                                 <a th:href="@{/category/suggest}">Zasugeruj nową kategorię</a>
                             </li>
                         </ul>
                     </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a th:href="@{/user}">Użytkownicy</a>
+                    </li>
                     <li>
-                        <a th:href="@{/items}">Lista przedmiotów</a>
+                        <a th:href="@{/item}">Przedmioty</a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a th:href="@{/attachment}">Załączniki</a>
                     </li>
                     <li sec:authorize="isAnonymous()">
                         <a th:href="@{/register}">Zarejestruj</a>
@@ -57,10 +75,6 @@
                         <a href="#" onclick="document.getElementById('logout').submit()">Wyloguj się</a>
                         <form th:action="@{/logout}" id="logout" method="post" style="display: none;">
 
-                            <input
-                                    type="hidden"
-                                    th:name="${_csrf.parameterName}"
-                                    th:value="${_csrf.token}"/>
                         </form>
                     </li>
                 </ul>

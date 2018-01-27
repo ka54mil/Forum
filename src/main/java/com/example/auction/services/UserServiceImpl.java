@@ -56,18 +56,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public com.example.auction.models.User save(com.example.auction.models.User user) {
 
-        Role userRole = roleRepository.findRoleByType(Role.Types.ROLE_USER);
-        List roles = Arrays.asList(userRole);
-        user.setRoles(new HashSet<>(roles));
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setPasswordConfirm(null);
+        if(user.getRoles()==null || user.getRoles().isEmpty()){
+            Role userRole = roleRepository.findRoleByType(Role.Types.ROLE_USER);
+            List roles = Arrays.asList(userRole);
+            user.setRoles(new HashSet<>(roles));
+        }
+        if(user.getId() == null){
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPasswordConfirm(null);
+        }
         userRepository.saveAndFlush(user);
         return user;
     }
 
     @Override
     public void delete(Long id) {
-
+        userRepository.delete(id);
     }
 
     @Override
@@ -77,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public com.example.auction.models.User getById(Long id) {
-        return null;
+        return userRepository.findOne(id);
     }
 
     @Override
@@ -87,6 +91,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<com.example.auction.models.User> getAll() {
-        return null;
+        return userRepository.findAll();
     }
 }

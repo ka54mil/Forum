@@ -16,8 +16,11 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public boolean isUniqueCategory(String Category) {
-        return categoryRepository.findByNameIgnoreCase(Category) == null;
+    public boolean isUniqueCategory(Category category) {
+        if(category.getId() == null){
+            return categoryRepository.findByNameIgnoreCase(category.getName()) == null;
+        }
+        return categoryRepository.findByNameIgnoreCaseAndIdNot(category.getName(), category.getId()) == null;
     }
 
     @Override
@@ -43,6 +46,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<Category> getAllActive(Pageable pageable) {
         return categoryRepository.findAllByActive(true, pageable);
+    }
+
+    @Override
+    public List<Category> getAllActive() {
+        return categoryRepository.findAllByActive(true);
     }
 
     @Override

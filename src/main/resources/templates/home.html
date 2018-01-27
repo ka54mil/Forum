@@ -11,24 +11,24 @@
 <div id="main" class="container">
 
     <H2>Szukaj po kategoriach</H2>
+    <div class="content">
+        <div class="row-fluid">
+            <select class="form-control col-md-12" required="true" multiple="multiple">
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"/>
+            </select>
 
-    <div th:if="${categoriesPage.hasContent() eq false}">
-        <span>Brak kategorii w bazie</span>
-    </div>
-    <div th:if="${categoriesPage.hasContent() eq true}">
+                <div th:if="${itemsPage.hasContent() eq false}">
+                    <span>Brak kategorii w bazie</span>
+                </div>
+                <div th:if="${itemsPage.hasContent() eq true}">
 
-        <div class="content">
-            <div class="row-fluid">
-                <th:block th:each="category : ${categoriesPage.content}">
-                    <div class="span1" th:inline="text">[[${category.name}]]</div>
-                </th:block>
-            </div>
+
+                    <div th:replace="shared/pagination :: pager('/', ${itemsPage})"></div>
+
+                </div>
+
         </div>
-
-        <div th:replace="shared/pagination :: pager('/', ${categoriesPage})"></div>
-
     </div>
-
     <a class="btn btn-success" href="/category/suggest" >Dodaj własną kategorie</a>
 
 

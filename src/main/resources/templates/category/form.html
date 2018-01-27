@@ -16,13 +16,15 @@
                 <fieldset>
                     <h1 th:text="#{${action}}"></h1>
 
+
+                    <th-block data-th-if="${#fields.hasErrors('*')}" data-th-each="err : ${#fields.errors('*')}">
+                        <div class="error text-danger" th:text="${err}"></div>
+                    </th-block>
+
                     <div class="form-group">
                         <input type="text" th:field="*{name}"
                                class="form-control" th:classappend="${#fields.hasErrors('name')}?'is-invalid'"
                                placeholder="nazwa"/>
-                        <th-block data-th-if="${#fields.hasErrors('name')}"
-                            data-th-each="err : ${#fields.errors('name')}" data-th-text="${err}" class="help-block">
-                        </th-block>
                     </div>
 
                     <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
@@ -41,10 +43,6 @@
                         <div class="col-xs-6 col-sm-6 col-md-6">
                             <input type="hidden" th:field="*{id}"/>
                             <input type="hidden" name="action" th:value="${action}"/>
-                            <input
-                                    type="hidden"
-                                    th:name="${_csrf.parameterName}"
-                                    th:value="${_csrf.token}"/>
                         </div>
                     </div>
                 </fieldset>

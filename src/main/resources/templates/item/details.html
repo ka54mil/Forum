@@ -7,16 +7,16 @@
 <body>
 <div th:replace="shared/header :: header('home')"/>
 
-<div id="main" class="container">
+<div id="main" class="container" th:if="${item} ne null">
     <H1>Przedmiot</H1>
     Id: <b th:text="${item.id}"></b><br/>
     Nazwa: <b th:text="${item.name}"></b><br/>
-    Cena: <b th:text="#{${item.active}}"></b><br/>
-    Dodano: <b th:text="#{${item.active}}"></b><br/>
-    Status: <b th:text="#{${item.active}}"></b><br/>
-    Wystawiony do: <b th:text="#{${item.active}}"></b><br/>
-    Wystawiony przez: <b th:text="#{${item.active}}"></b><br/>
-    Zapłacił najwięcej: <b th:text="#{${item.active}}"></b><br/>
+    Cena: <b th:text="#{${item.price}}"></b><br/>
+    Dodano: <b th:text="#{${item.created}}"></b><br/>
+    Status: <b th:text="#{${item.status}}"></b><br/>
+    Wystawiony do: <b th:text="#{${item.endDate}}"></b><br/>
+    Wystawiony przez: <b th:text="#{${item.owner.username}}"></b><br/>
+    Zapłacił najwięcej: <b th:text="#{${item.winner.username}}"></b><br/>
     Kategorie:
     <th:block th:each="category : ${item.categories}">
         <div class="span3">
@@ -29,5 +29,7 @@
 <br/>
     <a class="btn btn-success" href="/item">Wstecz</a>
 </div>
+<div id="main" class="container" th:if="${item} eq null"/>
+
 </body>
 </html>
