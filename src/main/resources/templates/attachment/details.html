@@ -9,7 +9,7 @@
 
 <div id="main" class="container" th:if="${attachment} ne null">
     <H1>Kategoria</H1>
-    <img th:if="${attachment.type eq 'image/png'}" th:src="${attachment.path}"/>
+    <img th:if="${attachment.type eq 'image/png'}" th:src="|http://localhost:8080/attachment/download/${attachment.id}|" style="width: 200px; max-height: 200px;"/><br/>
     Id: <b th:text="${attachment.id}"></b><br/>
     Nazwa: <a th:href="@{/attachment/download(id=${attachment.id})}">
         <b th:text="${attachment.name}"></b><br/>

@@ -32,17 +32,13 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public Attachment save(Attachment attachment) {
+        if(attachment.getId() != null && attachment.getContent() == null){
+            Attachment tmp = attachmentRepository.findOne(attachment.getId());
+            attachment.setSuffix(tmp.getSuffix());
+            attachment.setType(tmp.getType());
+            attachment.setContent(tmp.getContent());
+        }
         return attachmentRepository.save(attachment);
-    }
-
-    @Override
-    public long countAll(){
-        return attachmentRepository.count();
-    }
-
-    @Override
-    public boolean isAttachmentExist(String path){
-        return attachmentRepository.findAttachmentByPath(path) != null;
     }
 
     @Override

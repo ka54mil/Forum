@@ -21,14 +21,18 @@ public class Attachment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 50)
     private String name;
 
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 50)
     private String type;
 
-    @Size(min = 1, max = 100)
-    private String path;
+    @Size(min = 1, max = 20)
+    private String suffix;
+
+    @Lob @Basic(fetch = FetchType.LAZY)
+    @Column(name="content", nullable=false)
+    private byte[] content;
 
     @Transient
     private MultipartFile file;

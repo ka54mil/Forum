@@ -11,8 +11,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
             "classpath:/META-INF/resources/webjars/"
     };
 
-    public static final String rootDir = "/";
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
