@@ -75,8 +75,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isUniqueLogin(String username) {
-        return userRepository.findByUsername(username) == null;
+    public boolean isUniqueLogin(com.example.auction.models.User user) {
+        if(user.getId() == null){
+            return userRepository.findByUsername(user.getUsername()) == null;
+        }
+        return userRepository.findByUsernameAndIdNot(user.getUsername(), user.getId()) == null;
     }
 
     @Override

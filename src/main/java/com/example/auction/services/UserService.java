@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface UserService extends UserDetailsService, Service<User> {
 
     User save(User user);
-    boolean isUniqueLogin(String login);
+    boolean isUniqueLogin(User login);
 
     Page<User> getAll(Pageable pageable);
 }

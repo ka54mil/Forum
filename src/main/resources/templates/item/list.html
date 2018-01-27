@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <div th:replace="shared/header :: header-css"/>
     <title>Aukcja</title>
@@ -9,7 +9,7 @@
 <div th:replace="shared/header :: header('home')"/>
 
 <div id="main" class="container">
-
+<div th:fragment="itemList(itemsPage)">
     <H2>Przedmioty</H2>
 
     <div th:if="${itemsPage.hasContent() eq false}">
@@ -22,6 +22,7 @@
             <tr>
                 <th>Nazwa</th>
                 <th>Cena</th>
+                <th sec:authorize="hasRole('ROLE_ADMIN')">Data utworzenia</th>
                 <th>Data zakończenia aukcji</th>
                 <th>Status</th>
                 <th>Wystawiony przez</th>
@@ -36,14 +37,16 @@
                 <td>
                     <a th:href="'/item/details/'+${item.id}" th:inline="text">[[${item.name}]]</a>
                 </td>
-                <td th:text="${item.price}"></td>
-                <td th:inline="text">[[{#dates.format(${item.price}, 'dd-MM-yyyy')}]]</td>
+                <td th:text="|${item.price} zł|"></td>
+                <td sec:authorize="hasRole('ROLE_ADMIN')" th:inline="text">[[${#dates.format(item.created, 'dd-MM-yyyy')}]]</td>
+                <td th:inline="text">[[${#dates.format(item.endDate, 'dd-MM-yyyy')}]]</td>
                 <td th:text="${item.status}"></td>
                 <td th:text="${item.owner.username}"></td>
-                <td th:text="${item.winner.username}"></td>
+                <td th:if="${item.winner ne null}" th:text="${item.winner.username}"></td>
+                <td th:if="${item.winner eq null}">Brak</td>
                 <td>
-                    <a class="btn btn-danger" th:href="'/item/delete/'+${item.id}">Usuń</a>
-                    <a class="btn btn-success" th:href="|/item/edit/${item.id}|">Edytuj</a>
+                    <a class="btn btn-danger" th:href="'/item/delete/'+${item.id}" sec:authorize="hasRole('ROLE_ADMIN')">Usuń</a>
+                    <a class="btn btn-success" th:href="|/item/edit/${item.id}|" sec:authorize="hasRole('ROLE_ADMIN')">Edytuj</a>
                 </td>
 
             </tr>
@@ -56,7 +59,7 @@
     </div>
 
     <a class="btn btn-success" href="/item/add" >Wystaw przedmiot na aukcje</a>
-
+</div>
 
 </div>
 </body>

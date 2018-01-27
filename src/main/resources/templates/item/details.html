@@ -11,12 +11,12 @@
     <H1>Przedmiot</H1>
     Id: <b th:text="${item.id}"></b><br/>
     Nazwa: <b th:text="${item.name}"></b><br/>
-    Cena: <b th:text="#{${item.price}}"></b><br/>
-    Dodano: <b th:text="#{${item.created}}"></b><br/>
-    Status: <b th:text="#{${item.status}}"></b><br/>
-    Wystawiony do: <b th:text="#{${item.endDate}}"></b><br/>
-    Wystawiony przez: <b th:text="#{${item.owner.username}}"></b><br/>
-    Zapłacił najwięcej: <b th:text="#{${item.winner.username}}"></b><br/>
+    Cena: <b th:text="${item.price}"></b><br/>
+    Dodano: <b th:text="${item.created}"></b><br/>
+    Status: <b th:text="${item.status}"></b><br/>
+    Wystawiony do: <b th:text="${item.endDate}"></b><br/>
+    Wystawiony przez: <b th:text="${item.owner.username}"></b><br/>
+    Zapłacił najwięcej: <b th:if="${item.winner ne null}" th:text="${item.winner.username}"></b> <b th:if="${item.winner eq null}" >Brak</b><br/>
     Kategorie:
     <th:block th:each="category : ${item.categories}">
         <div class="span3">

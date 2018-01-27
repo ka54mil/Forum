@@ -35,6 +35,9 @@ public class ItemServiceImpl implements ItemService
 
     @Override
     public Item save(Item item) {
+        if(item.getId() != null){
+            item.setCreated(itemRepository.findOne(item.getId()).getCreated());
+        }
         return itemRepository.save(item);
     }
 
@@ -45,7 +48,7 @@ public class ItemServiceImpl implements ItemService
 
     @Override
     public Page<Item> getAllOnSale(Pageable pageable, Item.Statuses status, Date endDate) {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        return itemRepository.findAllByStatusAndEndDateGreaterThanEqualOrderByEndDateAsc(pageable, status.name(), df.format(endDate));
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        return itemRepository.findAllByStatusAndEndDateGreaterThanEqualOrderByEndDateAsc(pageable, status.name(), endDate);
     }
 }

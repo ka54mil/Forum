@@ -35,6 +35,8 @@
                     <a th:href="'/attachment/details/'+${attachment.id}" th:inline="text">[[${attachment.name}]]</a>
                 </td>
                 <td th:text="${attachment.name}"></td>
+                <td><a th:href="|/item/details/${attachment.item.id}|" th:text="${attachment.item.name}"></a></td>
+                <td th:text="${attachment.item.owner.username}"></td>
                 <td>
                     <a class="btn btn-danger" th:href="'/attachment/delete/'+${attachment.id}">Usuń</a>
                     <a class="btn btn-success" th:href="|/attachment/edit/${attachment.id}|">Edytuj</a>

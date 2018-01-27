@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -26,9 +27,11 @@ public class Attachment {
     @Size(min = 1, max = 20)
     private String type;
 
-    @Lob @Basic(fetch = FetchType.LAZY)
-    @Column(name="content", nullable=false)
-    private byte[] content;
+    @Size(min = 1, max = 100)
+    private String path;
+
+    @Transient
+    private MultipartFile file;
 
     @Valid
     @ManyToOne(fetch = FetchType.LAZY)

@@ -15,6 +15,7 @@ import java.util.Set;
 @Table(name = "users")
 @Getter @Setter
 @NoArgsConstructor
+@UniqueUsername
 public class User {
 
     @Id
@@ -23,7 +24,6 @@ public class User {
 
     @Size(min = 3, max = 36)
     @Column(name = "username")
-    @UniqueUsername
     private String username;
 
     @Column(name = "password")

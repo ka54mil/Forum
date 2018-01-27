@@ -9,6 +9,8 @@
         <script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
         <script src="/webjars/bootstrap-datepicker/1.0.1/js/bootstrap-datepicker.js"></script>
         <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+        <script src="/webjars/select2/4.0.3/js/select2.min.js"></script>
+        <link rel="stylesheet" href="/webjars/select2/4.0.3/css/select2.min.css"/>
         <script type="text/javascript">
             $(document).ready(function () {
                 $('.datepicker').datepicker({
@@ -17,6 +19,9 @@
                     immediateUpdates: true,
                     todayBtn: true,
                     todayHighlight: true
+                });
+                $('.select2').select2({
+                    autoclose: false
                 });
             });
         </script>
@@ -53,7 +58,7 @@
                     <li sec:authorize="hasRole('ROLE_ADMIN')">
                         <a th:href="@{/user}">Użytkownicy</a>
                     </li>
-                    <li>
+                    <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/item}">Przedmioty</a>
                     </li>
                     <li sec:authorize="isAuthenticated()">

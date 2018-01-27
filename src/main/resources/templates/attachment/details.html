@@ -9,7 +9,7 @@
 
 <div id="main" class="container" th:if="${attachment} ne null">
     <H1>Kategoria</H1>
-    <img th:src="|data:image/png;base64,${attachment.content}|" alt="IMG DESC">
+    <img th:if="${attachment.type eq 'image/png'}" th:src="${attachment.path}"/>
     Id: <b th:text="${attachment.id}"></b><br/>
     Nazwa: <a th:href="@{/attachment/download(id=${attachment.id})}">
         <b th:text="${attachment.name}"></b><br/>
@@ -19,10 +19,11 @@
         <b th:text="${attachment.item.name}"></b>
     </a><br/>
     Dodany przez: <a th:href="|/user/details/${attachment.item.owner.id}|" sec:authorize="hasRole('ROLE_ADMIN')">
-    <b th:text="${attachment.item.owner.name}"></b>
+    <b th:text="${attachment.item.owner.username}"></b>
     </a><br/>
     <br/>
-        <a class="btn btn-success" href="/attachment/">Wstecz</a>
+    <a class="btn btn-success" th:href="|/attachment/download/${attachment.id}|">pobierz</a>
+    <a class="btn btn-success" href="/attachment/">Wstecz</a>
 </div>
 <div id="main" class="container" th:if="${attachment} eq null" th:text="#{record.not.found}"/>
 </body>

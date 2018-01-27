@@ -36,6 +36,7 @@
                 <td>
                     <a class="btn btn-danger" th:href="'/category/delete/'+${category.id}">Usuń</a>
                     <a class="btn btn-success" th:href="|/category/edit/${category.id}|">Edytuj</a>
+                    <a class="btn btn-success" th:href="|/category/change_active/${category.id}|" th:text="#{|category.change.active.${category.active}|}"></a>
                 </td>
 
             </tr>

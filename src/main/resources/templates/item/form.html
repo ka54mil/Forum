@@ -48,7 +48,7 @@
                     <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
                         <select th:field="*{owner}" class="form-control"
                                 th:classappend="${#fields.hasErrors('owner')}?'is-invalid'">
-                            <option value="false" disabled="true">Wystawiono przez</option>
+                            <option value="0" disabled="true">Wystawiono przez</option>
                             <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"/>
                         </select>
                     </div>
@@ -56,16 +56,16 @@
                     <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
                         <select th:field="*{winner}" class="form-control"
                                 th:classappend="${#fields.hasErrors('winner')}?'is-invalid'">
-                            <option value="false" disabled="true">Zapłacił najwięcej</option>
+                            <option th:value="${null}">Zapłacił najwięcej</option>
                             <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"/>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <select th:field="*{categories}" class="form-control"
+                        <select th:field="*{categories}" class="form-control select2"
                                 th:classappend="${#fields.hasErrors('categories')}?'is-invalid'"
                                 multiple="multiple" size="10">
-                            <option value="false" disabled="true">Kategorie</option>
+                            <option value="0" disabled="true">Kategorie</option>
                             <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"/>
                         </select>
                     </div>

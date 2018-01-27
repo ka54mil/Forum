@@ -13,7 +13,7 @@
     <H2>Szukaj po kategoriach</H2>
     <div class="content">
         <div class="row-fluid">
-            <select class="form-control col-md-12" required="true" multiple="multiple">
+            <select class="form-control col-md-12 select2" required="true" multiple="multiple">
                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"/>
             </select>
 

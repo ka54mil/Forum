@@ -67,4 +67,12 @@ public class CategoryController {
         categoryService.delete(id);
         return "redirect:/category";
     }
+
+    @RequestMapping(path = {"/category/change_active/{id}"})
+    public String changeActive(Model model, @PathVariable Long id) {
+        Category category = categoryService.getById(id);
+        category.setActive(!category.isActive());
+        categoryService.save(category);
+        return "redirect:/category";
+    }
 }

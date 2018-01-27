@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -32,11 +33,13 @@ public class Item {
     private BigDecimal price;
 
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @CreationTimestamp
     private Date created;
 
     @Temporal(TemporalType.DATE)
     @Column(name="end_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     @Size(min = 1, max = 20)
@@ -47,9 +50,8 @@ public class Item {
     @JoinColumn(name="owner_id", nullable = false)
     private User owner;
 
-    @Valid
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="payer_id", nullable = false)
+    @JoinColumn(name="payer_id")
     private User winner;
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -36,6 +36,16 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
+    public long countAll(){
+        return attachmentRepository.count();
+    }
+
+    @Override
+    public boolean isAttachmentExist(String path){
+        return attachmentRepository.findAttachmentByPath(path) != null;
+    }
+
+    @Override
     public void delete(Long id) {
         attachmentRepository.delete(id);
     }

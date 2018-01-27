@@ -10,5 +10,5 @@ import java.util.Date;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
     Item findByStatus(String status);
-    Page<Item> findAllByStatusAndEndDateGreaterThanEqualOrderByEndDateAsc(Pageable pageable, String status, String endDate);
+    Page<Item> findAllByStatusAndEndDateGreaterThanEqualOrderByEndDateAsc(Pageable pageable, String status, Date endDate);
 }

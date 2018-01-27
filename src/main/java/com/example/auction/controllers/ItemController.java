@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +29,10 @@ public class ItemController {
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping(path = "/*")
+    @RequestMapping(path = "/")
     public String index(Model model, Pageable pageable, Optional<List<Category>> categories) {
         model.addAttribute("categories", categoryService.getAllActive());
-        model.addAttribute("itemsPage", itemService.getAllOnSale(pageable));
+        model.addAttribute("itemsPage", itemService.getAllOnSale(pageable, Item.Statuses.Aktywna, new Date()));
         return "home";
     }
 
@@ -81,7 +82,7 @@ public class ItemController {
 
     @RequestMapping(path = {"/item/delete/{id}"})
     public String delete(Model model, @PathVariable Long id) {
-        model.addAttribute("item", itemService.getById(id));
+        itemService.delete(id);
         return "redirect:/item";
     }
 }

@@ -1,5 +1,6 @@
 package com.example.auction.validators;
 
+import com.example.auction.models.User;
 import com.example.auction.services.UserService;
 import com.example.auction.validators.annotations.UniqueUsername;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
+public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, User> {
 
     @Autowired
     private UserService userService;
@@ -15,8 +16,8 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
     public void initialize(UniqueUsername constraint) {
     }
 
-    public boolean isValid(String login, ConstraintValidatorContext context) {
-        return userService == null || (login != null && userService.isUniqueLogin(login));
+    public boolean isValid(User user, ConstraintValidatorContext context) {
+        return userService == null || (user != null && userService.isUniqueLogin(user));
     }
 
 }
