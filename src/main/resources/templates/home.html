@@ -13,9 +13,57 @@
     <H2>Szukaj po kategoriach</H2>
     <div class="content">
         <div class="row-fluid">
-            <select class="form-control col-md-12 select2" required="true" multiple="multiple">
-                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"/>
+            <form th:method="POST" th:object="${searchCommand}">
+
+            <select th:field="*{categories}" class="form-control col-md-12 select2" required="true" multiple="multiple">
+                <option th:each="category : ${categoriesList}" th:value="${category.id}" th:text="${category.name}"/>
             </select>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <input th:field="*{name}" placeholder="Fraza" class="form-control"
+                               th:classappend="${#fields.hasErrors('phrase')}?'is-invalid'"/>
+                        <div class="error text-danger" th:if="${#fields.hasErrors('phrase')}">
+                            <p th:each="err : ${#fields.errors('phrase')}" th:text="${err}"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+
+                        <input th:field="*{minPrice}" placeholder="Cena od" class="form-control"
+                               th:classappend="${#fields.hasErrors('minPrice')}?'is-invalid'"/>
+                        <div class="error text-danger" th:if="${#fields.hasErrors('minPrice')}">
+                            <p th:each="err : ${#fields.errors('minPrice')}" th:text="${err}"></p>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-3">
+
+                        <input th:field="*{maxPrice}" placeholder="Cena do" class="form-control"
+                               th:classappend="${#fields.hasErrors('maxPrice')}?'is-invalid'"/>
+                        <div class="error text-danger" th:if="${#fields.hasErrors('maxPrice')}">
+                            <p th:each="err : ${#fields.errors('maxPrice')}" th:text="${err}"></p>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-md-8"></div>
+
+                    <div class="form-group col-md-2">
+                        <a th:if="${searchCommand.isEmpty() eq false or #fields.hasErrors('*')}" th:href="@{vehicleList.html(all)}" class="btn btn-success">
+                            <span class="glyphicon glyphicon-refresh"></span> Pokaż wszystko
+                        </a>
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <button type="submit" class="btn btn-info">
+                            <span class="glyphicon glyphicon-search"></span> Wyszukaj
+                        </button>
+                    </div>
+                </div>
+            </form>
             <br/>
             <br/>
 

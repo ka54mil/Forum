@@ -1,14 +1,14 @@
 package com.example.auction.services;
 
+import com.example.auction.controllers.helpers.SearchFilter;
 import com.example.auction.models.Item;
 import com.example.auction.repositories.ItemRepository;
+import com.example.auction.repositories.criteria.ItemsSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -47,8 +47,13 @@ public class ItemServiceImpl implements ItemService
     }
 
     @Override
-    public Page<Item> getAllOnSale(Pageable pageable, Item.Statuses status, Date endDate) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        return itemRepository.findAllByStatusAndEndDateGreaterThanEqualOrderByEndDateAsc(pageable, status.name(), endDate);
+    public Page<Item> getAllOnSale(SearchFilter searchFilter, Pageable pageable, Item.Statuses status, Date endDate) {
+        return itemRepository.findAllByStatusAndEndDateGreaterThanEqualOrderByEndDateAsc(
+                Specification.where(ItemsSpecifications.findByName(searchFilter.getName())
+                                    .and(ItemsSpecifications.findByPriceRange(searchFilter.getMinPrice(), searchFilter.getMinPrice()))
+                ),
+                pageable,
+                status.name(),
+                endDate);
     }
 }

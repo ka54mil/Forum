@@ -1,5 +1,6 @@
 package com.example.auction.controllers;
 
+import com.example.auction.controllers.helpers.SearchFilter;
 import com.example.auction.models.Category;
 import com.example.auction.models.Item;
 import com.example.auction.models.User;
@@ -35,10 +36,15 @@ public class ItemController {
     @Autowired
     private AttachmentService attachmentService;
 
+    @ModelAttribute("searchCommand")
+    public SearchFilter getSimpleSearch(){
+        return new SearchFilter();
+    }
+
     @RequestMapping(path = "/")
-    public String index(Model model, Pageable pageable, Optional<List<Category>> categories) {
-        model.addAttribute("categories", categoryService.getAllActive());
-        model.addAttribute("itemsPage", itemService.getAllOnSale(pageable, Item.Statuses.Aktywna, new Date()));
+    public String index(Model model, Pageable pageable, @Valid @ModelAttribute("searchCommand") SearchFilter search) {
+        model.addAttribute("categoriesList", categoryService.getAllActive());
+        model.addAttribute("itemsPage", itemService.getAllOnSale(search, pageable, Item.Statuses.Aktywna, new Date()));
         return "home";
     }
 

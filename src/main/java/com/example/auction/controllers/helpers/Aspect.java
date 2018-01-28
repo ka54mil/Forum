@@ -1,4 +1,4 @@
-package com.example.auction.config;
+package com.example.auction.controllers.helpers;
 
 import com.example.auction.models.Item;
 import com.example.auction.repositories.ItemRepository;
@@ -16,7 +16,7 @@ public class Aspect {
     @Autowired
     private ItemRepository itemRepository;
 
-    @Before("execution(* com.example.auction.services.ItemService.get*(..))")
+    @Before("execution(* com.example.auction.controllers.ItemController.*(..))")
     public void updateBids(){
         List<Item> items = itemRepository.findItemsByStatusAndEndDateLessThanOrderByEndDateAsc(Item.Statuses.Aktywna.name(), new Date());
         for (Item item: items) {
