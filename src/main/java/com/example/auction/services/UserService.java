@@ -10,6 +10,6 @@ public interface UserService extends UserDetailsService, Service<User> {
 
     User save(User user);
     boolean isUniqueLogin(User login);
-
+    User getUserByUsername(String username);
     Page<User> getAll(Pageable pageable);
 }

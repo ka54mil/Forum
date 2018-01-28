@@ -10,7 +10,9 @@
 <div id="main" class="container" th:if="${attachment} ne null">
     <H1>Kategoria</H1>
     <img th:if="${attachment.type eq 'image/png'}" th:src="|http://localhost:8080/attachment/download/${attachment.id}|" style="width: 200px; max-height: 200px;"/><br/>
-    Id: <b th:text="${attachment.id}"></b><br/>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+        Id: <b th:text="${attachment.id}"></b><br/>
+    </th:block>
     Nazwa: <a th:href="@{/attachment/download(id=${attachment.id})}">
         <b th:text="${attachment.name}"></b><br/>
     </a>
@@ -18,9 +20,12 @@
     Przedmiot: <a th:href="|/item/details/${attachment.item.id}|">
         <b th:text="${attachment.item.name}"></b>
     </a><br/>
-    Dodany przez: <a th:href="|/user/details/${attachment.item.owner.id}|" sec:authorize="hasRole('ROLE_ADMIN')">
-    <b th:text="${attachment.item.owner.username}"></b>
-    </a><br/>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+        Dodany przez:
+        <a th:href="|/user/details/${attachment.item.owner.id}|" >
+            <b th:text="${attachment.item.owner.username}"></b>
+        </a><br/>
+    </th:block>
     <br/>
     <a class="btn btn-success" th:href="|/attachment/download/${attachment.id}|">pobierz</a>
     <a class="btn btn-success" href="/attachment/">Wstecz</a>

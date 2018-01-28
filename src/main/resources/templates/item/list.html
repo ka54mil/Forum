@@ -9,8 +9,9 @@
 <div th:replace="shared/header :: header('home')"/>
 
 <div id="main" class="container">
-<div th:fragment="itemList(itemsPage)">
     <H2>Przedmioty</H2>
+
+<div th:fragment="itemList(itemsPage)">
 
     <div th:if="${itemsPage.hasContent() eq false}">
         <span>Brak przedmiotów w bazie</span>
@@ -54,12 +55,11 @@
             </tbody>
         </table>
 
-        <div th:replace="shared/pagination :: pager('/', ${itemsPage})"></div>
-
     </div>
 
     <a class="btn btn-success" href="/item/add" >Wystaw przedmiot na aukcje</a>
 </div>
+    <div th:replace="shared/pagination :: pager('/item', ${itemsPage})"></div>
 
 </div>
 </body>

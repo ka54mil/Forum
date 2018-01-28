@@ -7,27 +7,53 @@
 <body>
 <div th:replace="shared/header :: header('home')"/>
 
-<div id="main" class="container" th:if="${item} ne null">
-    <H1>Przedmiot</H1>
-    Id: <b th:text="${item.id}"></b><br/>
-    Nazwa: <b th:text="${item.name}"></b><br/>
-    Cena: <b th:text="${item.price}"></b><br/>
-    Dodano: <b th:text="${item.created}"></b><br/>
-    Status: <b th:text="${item.status}"></b><br/>
-    Wystawiony do: <b th:text="${item.endDate}"></b><br/>
-    Wystawiony przez: <b th:text="${item.owner.username}"></b><br/>
-    Zapłacił najwięcej: <b th:if="${item.winner ne null}" th:text="${item.winner.username}"></b> <b th:if="${item.winner eq null}" >Brak</b><br/>
-    Kategorie:
-    <th:block th:each="category : ${item.categories}">
-        <div class="span3">
-            <a th:href="|/category/details/${category.id}|" sec:authorize="hasRole('ROLE_ADMIN')">
-                <b th:text="${category.name}"></b>
-            </a>
-            <b th:text="${category.name}" sec:authorize="!hasRole('ROLE_ADMIN')"></b>
+<div id="main" class="container-fluid" th:if="${item} ne null">
+    <H1 class="col-xs-12">Przedmiot</H1>
+
+    <div class="col-xs-10">
+        <div class="col-xs-2" sec:authorize="hasRole('ROLE_ADMIN')">Id: <br/><b th:text="${item.id}"></b></div>
+        <div class="col-xs-2">Nazwa: <br/> <b th:text="${item.name}"></b></div>
+        <div class="col-xs-2">Cena: <br/> <b th:text="${item.price}"> zł</b></div>
+        <div class="col-xs-2" th:if="${#authentication.name eq item.owner.username}">Dodano: <br/> <b th:text="${item.created}"></b></div>
+        <div class="col-xs-2" th:if="${#authentication.name eq item.owner.username}">Status: <br/> <b th:text="${item.status}"></b></div>
+        <div class="col-xs-2">Wystawiony do: <br/> <b th:text="${item.endDate}"></b></div>
+        <div class="col-xs-2">Wystawiony przez: <br/> <b th:text="${item.owner.username}"></b></div>
+        <div class="col-xs-2">Zapłacił najwięcej:
+            <br/><b th:if="${item.winner ne null}" th:text="${item.winner.username}"></b>
+            <b th:if="${item.winner eq null}" >Brak</b>
         </div>
-    </th:block>
-<br/>
-    <a class="btn btn-success" href="/item">Wstecz</a>
+        <br/>
+        <br/>
+        <br/>
+        <div class="col-xs-12"> Kategorie:</div>
+        <th:block th:each="category : ${item.categories}">
+            <div class="col-xs-2">
+                <a th:href="|/category/details/${category.id}|" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <b th:text="${category.name}"></b>
+                </a>
+                <b th:text="${category.name}" sec:authorize="!hasRole('ROLE_ADMIN')"></b>
+            </div>
+        </th:block>
+        <br/>
+        <br/>
+        <br/>
+        <div class="col-xs-12"> Załączniki:</div>
+        <th:block th:each="attachment : ${attachments}">
+            <div class="col-xs-3">
+                <img th:if="${attachment.type eq 'image/png'}" th:src="|http://localhost:8080/attachment/download/${attachment.id}|" style="width: 200px; max-height: 200px;"/><br/>
+                <a th:href="|/attachment/download/${attachment.id}|">
+                    <b th:text="${attachment.name}"></b>
+                </a>
+            </div>
+        </th:block>
+    </div>
+    <form method="POST" th:action="|/bid/${item.id}/${#authentication.name}|" class="col-xs-2">
+        <input type="number" class="form-control" name="price" th:min="${item.getMinBidPrice()}" th:value="${item.getMinBidPrice()}" step="0.01"/><br/>
+        <input type="submit" class="btn btn-success" th:value="Zalicytuj"/>
+    </form>
+    <br/>
+    <div class=" col-xs-12">
+    <a class="btn btn-success" href="/item">Wstecz</a></div>
 </div>
 <div id="main" class="container" th:if="${item} eq null"/>
 

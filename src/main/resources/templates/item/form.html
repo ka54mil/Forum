@@ -57,7 +57,7 @@
                         <select th:field="*{winner}" class="form-control"
                                 th:classappend="${#fields.hasErrors('winner')}?'is-invalid'">
                             <option th:value="${null}">Zapłacił najwięcej</option>
-                            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"/>
+                            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}" th:selected="${#authentication.name eq user.username}"/>
                         </select>
                     </div>
 

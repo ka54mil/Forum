@@ -1,11 +1,13 @@
 package com.example.auction.services;
 
 import com.example.auction.models.Attachment;
+import com.example.auction.models.Item;
 import com.example.auction.repositories.AttachmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,5 +46,11 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     public void delete(Long id) {
         attachmentRepository.delete(id);
+    }
+
+    @Override
+    @Transactional
+    public List<Attachment> getAttachmentsByItem(Item item) {
+        return attachmentRepository.findAttachmentsByItem(item);
     }
 }

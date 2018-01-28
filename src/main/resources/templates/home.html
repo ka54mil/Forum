@@ -16,6 +16,10 @@
             <select class="form-control col-md-12 select2" required="true" multiple="multiple">
                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"/>
             </select>
+            <br/>
+            <br/>
+
+            <a class="btn btn-success" href="/category/suggest" >Dodaj własną kategorie</a>
 
                 <div th:if="${itemsPage.hasContent() eq false}">
                     <span>Brak kategorii w bazie</span>
@@ -23,13 +27,13 @@
                 <div th:if="${itemsPage.hasContent() eq true}">
 
 
+                    <div th:replace="item/list :: itemList(${itemsPage})"></div>
                     <div th:replace="shared/pagination :: pager('/', ${itemsPage})"></div>
 
                 </div>
 
         </div>
     </div>
-    <a class="btn btn-success" href="/category/suggest" >Dodaj własną kategorie</a>
 
 
 </div>

@@ -61,7 +61,6 @@ public class Item {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories;
 
-
     public Item(String name, BigDecimal price, Date endDate, String status, User owner) {
         this.name = name;
         this.price = price;
@@ -70,6 +69,9 @@ public class Item {
         this.status = status;
     }
 
+    public BigDecimal getMinBidPrice(){
+        return price.add(price.divide(new BigDecimal(10),BigDecimal.ROUND_CEILING)).setScale(2, BigDecimal.ROUND_CEILING);
+    }
     public enum Statuses{
         Wstrzymana,
         Aktywna,

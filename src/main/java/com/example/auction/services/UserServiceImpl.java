@@ -83,6 +83,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public com.example.auction.models.User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
     public com.example.auction.models.User getById(Long id) {
         return userRepository.findOne(id);
     }
