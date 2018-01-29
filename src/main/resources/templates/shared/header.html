@@ -58,11 +58,17 @@
                     <li sec:authorize="hasRole('ROLE_ADMIN')">
                         <a th:href="@{/user}">Użytkownicy</a>
                     </li>
-                    <li sec:authorize="isAuthenticated()">
+                    <li sec:authorize="hasRole('ROLE_ADMIN')">
                         <a th:href="@{/item}">Przedmioty</a>
                     </li>
-                    <li sec:authorize="isAuthenticated()">
+                    <li sec:authorize="hasRole('ROLE_USER')">
+                        <a th:href="|/item/${#authentication.name}|">Moje przedmioty</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')">
                         <a th:href="@{/attachment}">Załączniki</a>
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_USER')">
+                        <a th:href="|/attachment/${#authentication.name}|">Moje załączniki</a>
                     </li>
                     <li sec:authorize="isAnonymous()">
                         <a th:href="@{/register}">Zarejestruj</a>

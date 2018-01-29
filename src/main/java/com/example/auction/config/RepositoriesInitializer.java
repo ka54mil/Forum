@@ -19,8 +19,6 @@ public class RepositoriesInitializer {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private ItemRepository itemRepository;
-    @Autowired
     private AttachmentRepository attachmentRepository;
     @Autowired
     private UserRepository userRepository;

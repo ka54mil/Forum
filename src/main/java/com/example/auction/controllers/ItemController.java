@@ -9,6 +9,8 @@ import com.example.auction.services.CategoryService;
 import com.example.auction.services.ItemService;
 import com.example.auction.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class ItemController {
@@ -44,13 +44,41 @@ public class ItemController {
     @RequestMapping(path = "/")
     public String index(Model model, Pageable pageable, @Valid @ModelAttribute("searchCommand") SearchFilter search) {
         model.addAttribute("categoriesList", categoryService.getAllActive());
-        model.addAttribute("itemsPage", itemService.getAllOnSale(search, pageable, Item.Statuses.Aktywna, new Date()));
+        List<Item> items = itemService.getAllOnSale(search, Item.Statuses.Aktywna, new Date());
+        if(items == null){
+            items = new ArrayList<>();
+        }
+        if(search.getCategories()!= null && !search.getCategories().isEmpty() && !items.isEmpty()){
+            List<Item> result = new ArrayList<>();
+            for (Item item : items){
+                boolean exist = false;
+                for(Category category : search.getCategories()){
+                    if(item.getCategories().contains(categoryService.getById(category.getId()))){
+                        exist = true;
+                        break;
+                    }
+                }
+                if(exist){
+                    result.add(item);
+                }
+            }
+            items = result;
+        }
+
+        model.addAttribute("itemsPage", new PageImpl(items, pageable, items.size()));
         return "home";
     }
 
     @RequestMapping(path = "/item")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("itemsPage", itemService.getAll(pageable));
+        return "item/list";
+    }
+
+    @RequestMapping(path = "/item/{username}")
+    public String list(Model model, Pageable pageable, @PathVariable("username") String username) {
+        User user = userService.getUserByUsername(username);
+        model.addAttribute("itemsPage", itemService.getAllByUser(pageable, user));
         return "item/list";
     }
 
@@ -67,7 +95,7 @@ public class ItemController {
         model.addAttribute("item", item);
         model.addAttribute("statuses", Item.Statuses.values());
         model.addAttribute("users", userService.getAll());
-        model.addAttribute("categories", categoryService.getAll());
+        model.addAttribute("categories", categoryService.getAllActive());
 
         return "item/form";
     }
@@ -82,6 +110,7 @@ public class ItemController {
 
             return "item/form";
         }
+
         itemService.save(item);
         return "redirect:/item";
     }

@@ -38,8 +38,10 @@
                 <td><a th:href="|/item/details/${attachment.item.id}|" th:text="${attachment.item.name}"></a></td>
                 <td th:text="${attachment.item.owner.username}"></td>
                 <td>
-                    <a class="btn btn-danger" th:href="'/attachment/delete/'+${attachment.id}">Usuń</a>
-                    <a class="btn btn-success" th:href="|/attachment/edit/${attachment.id}|">Edytuj</a>
+                    <a class="btn btn-danger" th:href="'/attachment/delete/'+${attachment.id}" sec:authorize="hasRole('ROLE_ADMIN')">Usuń</a>
+                    <a class="btn btn-success" th:href="|/attachment/edit/${attachment.id}|" sec:authorize="hasRole('ROLE_ADMIN')">Edytuj</a>
+                    <a class="btn btn-danger" th:href="'/attachment/delete/'+${attachment.id}" th:if="${#authentication.name eq attachment.item.owner.username}" sec:authorize="!hasRole('ROLE_ADMIN')">Usuń</a>
+                    <a class="btn btn-success" th:href="|/attachment/edit/${attachment.id}/${#authentication.name}|" th:if="${#authentication.name eq attachment.item.owner.username}" sec:authorize="!hasRole('ROLE_ADMIN')">Edytuj</a>
                 </td>
 
             </tr>
@@ -51,7 +53,8 @@
 
     </div>
 
-    <a class="btn btn-success" href="/attachment/add" >Dodaj załącznik</a>
+    <a class="btn btn-success" th:href="|/attachment/add/${#authentication.name}|" sec:authorize="!hasRole('ROLE_ADMIN')">Dodaj załącznik</a>
+    <a class="btn btn-success" th:href="|/attachment/add|" sec:authorize="hasRole('ROLE_ADMIN')">Dodaj załącznik</a>
 
 
 </div>

@@ -1,10 +1,12 @@
 package com.example.auction.models;
 
+import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -38,7 +40,7 @@ public class Item {
     private Date created;
 
     @Temporal(TemporalType.DATE)
-    @Column(name="end_date")
+    @Column(name="end_date", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
@@ -46,7 +48,7 @@ public class Item {
     private String status;
 
     @Valid
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="owner_id", nullable = false)
     private User owner;
 
@@ -55,7 +57,7 @@ public class Item {
     private User winner;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @Size(max=10)
+    @Size(min=1)
     @JoinTable(name = "items_categories",
             joinColumns = @JoinColumn(name = "item_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))

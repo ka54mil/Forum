@@ -53,4 +53,10 @@ public class AttachmentServiceImpl implements AttachmentService {
     public List<Attachment> getAttachmentsByItem(Item item) {
         return attachmentRepository.findAttachmentsByItem(item);
     }
+
+    @Transactional
+    @Override
+    public Page<Attachment> getAttachmentsByItems(Pageable pageable, List<Item> item) {
+        return attachmentRepository.findAttachmentsByItemIn(pageable,item);
+    }
 }

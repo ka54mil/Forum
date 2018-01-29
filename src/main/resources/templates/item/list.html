@@ -48,6 +48,8 @@
                 <td>
                     <a class="btn btn-danger" th:href="'/item/delete/'+${item.id}" sec:authorize="hasRole('ROLE_ADMIN')">Usuń</a>
                     <a class="btn btn-success" th:href="|/item/edit/${item.id}|" sec:authorize="hasRole('ROLE_ADMIN')">Edytuj</a>
+                    <a class="btn btn-danger" th:href="'/item/delete/'+${item.id}" th:if="${#authentication.name eq item.owner.username}" sec:authorize="!hasRole('ROLE_ADMIN')">Usuń</a>
+                    <a class="btn btn-success" th:href="|/item/edit/${item.id}|" th:if="${#authentication.name eq item.owner.username}" sec:authorize="!hasRole('ROLE_ADMIN')">Edytuj</a>
                 </td>
 
             </tr>

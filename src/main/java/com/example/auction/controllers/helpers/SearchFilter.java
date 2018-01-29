@@ -7,7 +7,10 @@ import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter @Setter
 public class SearchFilter {
@@ -39,6 +42,31 @@ public class SearchFilter {
             return null;
         }else{
             return "%"+name+"%";
+        }
+    }
+
+    public String getCategoriesIN(){
+        if(categories == null || categories.isEmpty()) {
+            return null;
+        }else{
+            StringBuilder sb = new StringBuilder();
+            for (Category category : categories){
+                sb.append(category.getId()).append(',');
+            }
+            sb.deleteCharAt(sb.lastIndexOf(","));
+            return "("+sb.toString()+")";
+        }
+    }
+    public List<Long> getCategoriesIdsIN(){
+        if(categories == null || categories.isEmpty()) {
+            return null;
+        }else{
+            List<Long> list = new ArrayList<>();
+            for (Category category : categories){
+                list.add(category.getId());
+            }
+
+            return list;
         }
     }
 }

@@ -1,16 +1,23 @@
 package com.example.auction.services;
 
 import com.example.auction.controllers.helpers.SearchFilter;
+import com.example.auction.models.Category;
 import com.example.auction.models.Item;
+import com.example.auction.models.User;
 import com.example.auction.repositories.ItemRepository;
 import com.example.auction.repositories.criteria.ItemsSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ItemServiceImpl implements ItemService
@@ -47,13 +54,31 @@ public class ItemServiceImpl implements ItemService
     }
 
     @Override
-    public Page<Item> getAllOnSale(SearchFilter searchFilter, Pageable pageable, Item.Statuses status, Date endDate) {
+    public List<Item> getAllOnSale(SearchFilter searchFilter, Item.Statuses status, Date endDate) {
+//        Specification.where(ItemsSpecifications.findByName(searchFilter.getName())
+//                .and(ItemsSpecifications.findByPriceRange(searchFilter.getMinPrice(), searchFilter.getMinPrice()))
+//        ),
+//        Set<Category> categories = null;
+//        if(searchFilter.getCategories() != null && !searchFilter.getCategories().isEmpty()){
+//            categories = new HashSet<>(searchFilter.getCategories());
+//        }
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         return itemRepository.findAllByStatusAndEndDateGreaterThanEqualOrderByEndDateAsc(
-                Specification.where(ItemsSpecifications.findByName(searchFilter.getName())
-                                    .and(ItemsSpecifications.findByPriceRange(searchFilter.getMinPrice(), searchFilter.getMinPrice()))
-                ),
-                pageable,
-                status.name(),
-                endDate);
+                searchFilter.getNameLIKE(),
+                searchFilter.getMinPrice(),
+                searchFilter.getMaxPrice(),
+//                pageable,
+                status.name());
+    }
+
+    @Override
+    @Transactional
+    public Page<Item> getAllByUser(Pageable pageable, User user) {
+        return itemRepository.findItemsByOwner(pageable,user);
+    }
+
+    @Override
+    public List<Item> getAllByUser(User user) {
+        return itemRepository.findItemsByOwner(user);
     }
 }
